@@ -4,5 +4,5 @@ package com.codingnomads.map;
  * Write your own implementation
  */
 
-public class MyHashMap {
+public class MyHashMap<E> {
 }
