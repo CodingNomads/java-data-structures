@@ -4,5 +4,5 @@ package com.codingnomads.list;
  * Write your own implementation
  */
 
-public class MySingleLinkedList<E> {
+public class MyLinkedList<E> {
 }
