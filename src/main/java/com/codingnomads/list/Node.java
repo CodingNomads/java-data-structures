@@ -5,19 +5,19 @@ class Node <E> {
     private E data;
     private Node next;
 
-    E getData() {
+    public E getData() {
         return data;
     }
 
-    void setData(E data) {
+    public void setData(E data) {
         this.data = data;
     }
 
-    Node getNext() {
+    public Node getNext() {
         return next;
     }
 
-    void setNext(Node next) {
+    public void setNext(Node next) {
         this.next = next;
     }
 }

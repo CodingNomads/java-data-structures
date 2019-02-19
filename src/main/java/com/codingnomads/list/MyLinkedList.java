@@ -1,5 +1,8 @@
 package com.codingnomads.list;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * Write a MyLinkedList from scratch. Make it generic.
  * <p>
@@ -7,7 +10,7 @@ package com.codingnomads.list;
  * Double challenge, make it a doubly linked list.
  */
 
-class MyLinkedList<E> {
+class MyLinkedList<E> implements Iterable<E> {
 
     private Node<E> head;
 
@@ -88,5 +91,54 @@ class MyLinkedList<E> {
         return counter;
     }
 
+    public E get(int index) {
+        if (head == null) {
+            throw new NullPointerException();
+        } else {
+            Node<E> n = head;
+            for (int i = 0; i < index; i++) {
+                n = n.getNext();
+            }
+            return n.getData();
+        }
+        // try-catch left out on purpose to not 'Pokemon' every NullPointerException - valid here since it should crash
+
+
+    }
+
+    // Iterator Implementation
+
+
+    @Override
+    public Iterator<E> iterator() {
+        return new MyLinkedListIterator();
+    }
+
+    private class MyLinkedListIterator implements Iterator<E> {
+
+        Node<E> current = null;
+
+        @Override
+        public boolean hasNext() {
+            if (current == null && head != null) {
+                return true;
+            } else if (current != null) {
+                return current.getNext() != null;
+            }
+            return false;
+        }
+
+        @Override
+        public E next() {
+            if (current == null && head != null) {
+                current = head;
+                return head.getData();
+            } else if (current != null) {
+                current = current.getNext();
+                return  current.getData();
+            }
+            throw new NoSuchElementException();
+        }
+    }
 }
 
