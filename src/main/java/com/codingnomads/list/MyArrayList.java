@@ -7,8 +7,10 @@ package com.codingnomads.list;
  */
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class MyArrayList<T> {
+public class MyArrayList<T> implements Iterable<T> {
 
     private Object[] userArray;
     private int size = 0;
@@ -51,5 +53,42 @@ public class MyArrayList<T> {
 
     private void increaseListCapacity() {
         userArray = Arrays.copyOf(userArray, userArray.length * 2);
+    }
+
+    //Iterator implementation starts here
+
+    @Override
+    public Iterator<T> iterator() {
+        return new MyArrayListIterator();
+    }
+
+    private class MyArrayListIterator implements Iterator<T> {
+
+        T current = null;
+        int posInArray = 0;
+
+        @Override
+        public boolean hasNext() {
+            if (current == null && posInArray == 0) {
+                return true;
+            } else if (current != null && posInArray < size - 1) {
+                return userArray[posInArray] != null;
+            }
+            return false;
+        }
+
+        @Override
+        public T next() {
+            if (current == null && size > 1) {
+                current = get(posInArray);
+                return current;
+            } else if (current != null && size > 1) {
+                current = get(posInArray + 1);
+                posInArray++;
+                return current;
+            } else {
+                throw new NoSuchElementException();
+            }
+        }
     }
 }
