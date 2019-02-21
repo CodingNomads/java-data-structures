@@ -1,4 +1,8 @@
 #Data Structures
+##Tutorials:
+https://beginnersbook.com/java-collections-tutorials/
+
+## Info
 1. **Stack.java** is an implementation of a [generic stack](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)). 
 which is a special list that utilizes a Last-In-First-Out methodology.
 1. **Queue.java** is an implementation of a [generic queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)). 
