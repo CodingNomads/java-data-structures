@@ -4,7 +4,7 @@ package com.codingnomads.list;
  * implement a custom ArrayList from scratch.
  * It should be generic, and it should automatically resize itself when nearing it's upper size bounds.
  * It should also resize itself to be smaller if/when needed as well.
- *
+ * <p>
  * Part1:
  * Implement the methods:
  * 1) add( Object o): This method adds an object o to the arraylist.
@@ -17,10 +17,10 @@ package com.codingnomads.list;
  * 8) int size(): It gives the size of the ArrayList – Number of elements of the list.
  * 9) boolean contains(Object o): It checks whether the given object o is present in the array list if its there then it returns true else it returns false.
  * 10) clear(): It is used for removing all the elements of the array list in one go. The below code will remove all the elements of ArrayList whose object is obj.
- *
+ * <p>
  * Part2:
  * Make it Generic
- *
+ * <p>
  * Part3:
  * Implement the Iterator
  * https://beginnersbook.com/2014/06/java-iterator-with-examples/
