@@ -27,4 +27,86 @@ package com.codingnomads.list;
  */
 
 public class MyArrayList<E> {
+
+    private Object[] standardArray = new Object[20];
+    private int size = 0;
+
+    //add method
+    public void add(E item){
+        standardArray[size++] = item;
+    }
+
+    //remove method
+    public void remove(int n){
+        for(int i = 0; i < size - 2; i++){
+            standardArray[n + i] = standardArray[n + 1 + i];
+        }
+        standardArray[--size] = null;
+    }
+
+    //toString method
+    @Override
+    public String toString(){
+        String content = "";
+        String comma = " , ";
+
+        for(int i = 0; i < size; i++){
+            if(i != size - 1) {
+                content += standardArray[i].toString() + " , ";
+            } else {
+                content += standardArray[i].toString();
+            }
+        }return content;
+    }
+
+    //get
+    public E get(int i){
+        return (E) standardArray[i];
+    }
+
+    //isEmpty
+    public boolean isEmpty(){return size ==0;}
+
+    //size
+    public int size(){ return size;}
+
+    //contains
+    public boolean contains(E item){
+        for(int i = 0; i < size; i++){
+            if(standardArray[i] == item){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //indexOf
+    public int indexOf(E input){
+        for(int i = 0; i < size; i++){
+            if(standardArray[i] == input){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    //hasNext
+    public boolean hasNext(){
+        for(int i = 0; i < size; i++){
+            if(standardArray[i + 1] == null){
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    //next
+    public E next(){
+        for(int i = 1; ;i++){
+            System.out.print(standardArray[i+1]);
+        }
+    }
+
 }
+
