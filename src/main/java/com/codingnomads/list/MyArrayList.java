@@ -1,5 +1,7 @@
 package com.codingnomads.list;
 
+import java.util.ArrayList;
+
 /**
  * implement a custom ArrayList from scratch.
  * It should be generic, and it should automatically resize itself when nearing it's upper size bounds.
@@ -26,5 +28,56 @@ package com.codingnomads.list;
  * https://beginnersbook.com/2014/06/java-iterator-with-examples/
  */
 
-public class MyArrayList<E> {
+public class MyArrayList {
+
+    int[] myStore;
+    int actSize = 0;
+
+    public MyArrayList() {
+        myStore = new int[3];
+    }
+
+    public void add(int i) {
+        if (myStore.length == actSize) {
+            increaseSize();
+        }
+        myStore[actSize++] = i;
+    }
+
+    private void increaseSize() {
+        int[] myStoreTemp = new int[actSize * 2];
+        for (int i = 0; i < myStore.length; i++) {
+            myStoreTemp[i] = myStore[i];
+
+        }
+
+        myStore = myStoreTemp;
+    }
+
+    public int get(int index) {
+        return myStore[index];
+    }
+
+    public void remove(int index) {
+
+    }
+
+
+    public static void main(String[] args) {
+
+        MyArrayList myArrayList = new MyArrayList();
+        myArrayList.add(3);
+        myArrayList.add(5);
+        myArrayList.add(10);
+        myArrayList.add(1337);
+        System.out.println(myArrayList.get(0));
+        System.out.println(myArrayList.get(1));
+        System.out.println(myArrayList.get(2));
+        System.out.println(myArrayList.get(3));
+
+
+    }
+
 }
+
+
