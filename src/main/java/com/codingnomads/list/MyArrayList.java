@@ -1,6 +1,7 @@
 package com.codingnomads.list;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * implement a custom ArrayList from scratch.
@@ -58,8 +59,13 @@ public class MyArrayList {
         return myStore[index];
     }
 
-    public void remove(int index) {
+    public void remove(int i) {
+        System.out.println("Deleting element in array at index " + i);
+        myStore[i] = 0;
 
+        for (int j = (i + 1); j < myStore.length; j++) {
+            myStore[j] = 0;
+        }
     }
 
 
@@ -70,6 +76,8 @@ public class MyArrayList {
         myArrayList.add(5);
         myArrayList.add(10);
         myArrayList.add(1337);
+        myArrayList.remove(1);
+
         System.out.println(myArrayList.get(0));
         System.out.println(myArrayList.get(1));
         System.out.println(myArrayList.get(2));
