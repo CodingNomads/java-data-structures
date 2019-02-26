@@ -1,5 +1,7 @@
 package com.codingnomads.list;
 
+import java.util.*;
+
 /**
  * implement a custom ArrayList from scratch.
  * It should be generic, and it should automatically resize itself when nearing it's upper size bounds.
@@ -26,5 +28,263 @@ package com.codingnomads.list;
  * https://beginnersbook.com/2014/06/java-iterator-with-examples/
  */
 
-public class MyArrayList<E> {
+
+public class MyArrayList<E> implements Iterable<E> {
+    private int size;
+    private int capacity = 10;
+    private Object[] array;
+
+    private void resizeCapacity() {
+
+        capacity = 10 + size - (size % 10);
+
+        Object[] tempArray = new Object[capacity];
+
+        for (int i = 0; i < size; ++i) {
+            tempArray[i] = array[i];
+        }
+
+        array = tempArray;
+    }
+
+    private boolean indexControl(int index) {
+        return index < size;
+    }
+
+    public MyArrayList() {
+        array = new Object[capacity];
+    }
+
+    public <E> boolean add(int index, E element) {
+
+        if (indexControl(index))
+            return false;
+
+        if (size == array.length) {
+            resizeCapacity();
+        }
+
+        Object[] tempArray = new Object[capacity];
+
+        int in = 0;
+
+        for (int i = 0; i < size; ++i) {
+            if (index == i) {
+                ++in;
+                tempArray[in++] = array[i];
+                continue;
+            } else {
+                tempArray[in++] = array[i];
+            }
+        }
+
+        tempArray[index] = element;
+
+        array = tempArray;
+
+        return true;
+
+    }
+
+    public <E> void add(E element) {
+
+        if (size == array.length) {
+            resizeCapacity();
+        }
+
+        array[size++] = element;
+    }
+
+    public <E> boolean remove(E element) {
+
+        if (!contains(element)) {
+            return false;
+        }
+
+        int index = indexOf(element);
+        int in = 0;
+
+        Object[] tempArray = new Object[capacity];
+
+        for (int i = 0; i < size; ++i) {
+            if (i == index) {
+                continue;
+            } else {
+                tempArray[in++] = array[i];
+            }
+        }
+
+        array = tempArray;
+
+        size -= 1;
+
+        resizeCapacity();
+
+        return true;
+    }
+
+    public <E> boolean remove(int index) {
+
+        if (!indexControl(index)) {
+            return false;
+        }
+
+        int in = 0;
+
+        Object[] tempArray = new Object[capacity];
+
+        for (int i = 0; i < size; ++i) {
+            if (i == index) {
+                continue;
+            } else {
+                tempArray[in++] = array[i];
+            }
+        }
+
+        array = tempArray;
+
+        size -= 1;
+
+        resizeCapacity();
+
+        return true;
+    }
+
+    public <E> boolean set(int index, E element) {
+
+        if (!indexControl(index)) {
+            System.out.println("Invalid index");
+            return false;
+        }
+
+        array[index] = element;
+
+        return true;
+    }
+
+    public <Object> Object get(int index) {
+
+        return (Object) array[index];
+    }
+
+    public <E> int indexOf(E element) {
+
+        for (int i = 0; i < size; ++i) {
+            if (array[i].equals(element))
+                return i;
+        }
+
+        return -1;
+    }
+
+    public <Object> boolean contains(Object element) {
+
+        for (int i = 0; i < size; ++i) {
+            if (array[i].equals(element))
+                return true;
+        }
+
+        return false;
+    }
+
+    public void clear() {
+
+        size = 0;
+
+        resizeCapacity();
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void displayArray() {
+
+        System.out.print('{');
+
+        for (int i = 0; i < size; ++i) {
+            System.out.print(array[i] + " ");
+        }
+
+        System.out.print('}');
+
+        System.out.println();
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new MyIterator();
+    }
+
+    class MyIterator implements Iterator<E> {
+
+        private int cursor;
+
+        @Override
+        public boolean hasNext() {
+            return cursor != size;
+        }
+
+        @Override
+        public E next() {
+
+            return (E) array[cursor++];
+        }
+    }
+
+    public static void main(String[] args) {
+
+        MyArrayList<Object> list = new MyArrayList<>();
+
+        list.add(10.5);
+        list.add("CodingNomads");
+        list.add(true);
+
+        for (int i = 0; i < 30; ++i) {
+            list.add(i);
+        }
+
+
+        //ITERATION
+
+        for (Object object : list) {
+            System.out.print(object + " ");
+        }
+
+        System.out.printf("%nSize: %d%nCapacity: %d%n******%n", list.size, list.capacity);
+
+        /* For test
+
+        System.out.printf("Size: %d%nCapacity: %d%n******", list.size, list.capacity);
+
+        System.out.println("Removing # " + list.remove((Object)'#'));
+
+        System.out.println("Getting index no 6 " + (Object)list.get(6));
+
+        System.out.println("Removing index no 6 " + list.remove(6));
+
+        System.out.println("Getting index no 6 " + (Object)list.get(6));
+
+        System.out.println("Removing false " + list.remove(false));
+
+        System.out.println("Getting index of CodingNomads " + list.indexOf("CodingNomads"));
+
+        System.out.println("Setting CodingNomads to CodingNomadsBali" + list.set(list.indexOf("CodingNomads"), "CodingNomadsBali"));
+
+        System.out.println("Checking Contains CodingNomadsBali " + list.contains("CodingNomadsBali"));
+        System.out.println("Checking Contains XXXX " + list.contains("XXXX"));
+
+        list.clear();
+
+        System.out.println("After Clear ");
+
+
+        System.out.printf("Size: %d%nCapacity: %d%n******%n", list.size, list.capacity);
+
+        */
+    }
 }
