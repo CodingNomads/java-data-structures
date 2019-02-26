@@ -28,60 +28,39 @@ import java.util.*;
  * https://beginnersbook.com/2014/06/java-iterator-with-examples/
  */
 
-class MyIterator implements Iterator{
-    int cursor;
 
-    public int size;
-
-    public Object obj;
-
-    public boolean hasNext(){
-
-        if(cursor == size)
-            return false;
-
-        return true;
-    }
-
-    public Object next(){
-        cursor++;
-
-        return obj;
-    }
-}
-
-public class MyArrayList<E> {
+public class MyArrayList<E> implements Iterable<E> {
     private int size;
     private int capacity = 10;
-    private Object [] array ;
+    private Object[] array;
 
-    private void resizeCapacity(){
+    private void resizeCapacity() {
 
         capacity = 10 + size - (size % 10);
 
         Object[] tempArray = new Object[capacity];
 
-        for(int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; ++i) {
             tempArray[i] = array[i];
         }
 
         array = tempArray;
     }
 
-    private boolean indexControl(int index){
+    private boolean indexControl(int index) {
         return index < size;
     }
 
-    public MyArrayList(){
+    public MyArrayList() {
         array = new Object[capacity];
     }
 
-    public <E> boolean add (int index, E element){
+    public <E> boolean add(int index, E element) {
 
-        if(indexControl(index))
+        if (indexControl(index))
             return false;
 
-        if(size == array.length){
+        if (size == array.length) {
             resizeCapacity();
         }
 
@@ -89,14 +68,12 @@ public class MyArrayList<E> {
 
         int in = 0;
 
-        for(int i = 0; i < size; ++i){
-            if(index == i){
+        for (int i = 0; i < size; ++i) {
+            if (index == i) {
                 ++in;
                 tempArray[in++] = array[i];
                 continue;
-            }
-
-            else{
+            } else {
                 tempArray[in++] = array[i];
             }
         }
@@ -109,31 +86,30 @@ public class MyArrayList<E> {
 
     }
 
-    public <E> void add (E element){
+    public <E> void add(E element) {
 
-        if(size == array.length) {
+        if (size == array.length) {
             resizeCapacity();
         }
 
         array[size++] = element;
     }
 
-    public <E> boolean remove (E element){
+    public <E> boolean remove(E element) {
 
-        if(!contains(element)){
+        if (!contains(element)) {
             return false;
         }
 
         int index = indexOf(element);
         int in = 0;
 
-        Object [] tempArray = new Object[capacity];
+        Object[] tempArray = new Object[capacity];
 
-        for(int i = 0; i < size; ++i){
-            if(i == index){
+        for (int i = 0; i < size; ++i) {
+            if (i == index) {
                 continue;
-            }
-            else{
+            } else {
                 tempArray[in++] = array[i];
             }
         }
@@ -147,21 +123,20 @@ public class MyArrayList<E> {
         return true;
     }
 
-    public <E> boolean remove(int index){
+    public <E> boolean remove(int index) {
 
-        if(!indexControl(index)) {
+        if (!indexControl(index)) {
             return false;
         }
 
         int in = 0;
 
-        Object [] tempArray = new Object[capacity];
+        Object[] tempArray = new Object[capacity];
 
-        for(int i = 0; i < size; ++i){
-            if(i == index){
+        for (int i = 0; i < size; ++i) {
+            if (i == index) {
                 continue;
-            }
-            else{
+            } else {
                 tempArray[in++] = array[i];
             }
         }
@@ -175,9 +150,9 @@ public class MyArrayList<E> {
         return true;
     }
 
-    public <E> boolean set(int index, E element){
+    public <E> boolean set(int index, E element) {
 
-        if(!indexControl(index)){
+        if (!indexControl(index)) {
             System.out.println("Invalid index");
             return false;
         }
@@ -187,14 +162,14 @@ public class MyArrayList<E> {
         return true;
     }
 
-    public <Object> Object get(int index){
+    public <Object> Object get(int index) {
 
-        return (Object)array[index];
+        return (Object) array[index];
     }
 
-    public <E> int indexOf(E element){
+    public <E> int indexOf(E element) {
 
-        for(int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; ++i) {
             if (array[i].equals(element))
                 return i;
         }
@@ -202,37 +177,37 @@ public class MyArrayList<E> {
         return -1;
     }
 
-    public <Object> boolean contains(Object element){
+    public <Object> boolean contains(Object element) {
 
-        for(int i = 0; i < size; ++i){
-            if(array[i].equals(element))
+        for (int i = 0; i < size; ++i) {
+            if (array[i].equals(element))
                 return true;
         }
 
         return false;
     }
 
-    public void clear(){
+    public void clear() {
 
         size = 0;
 
         resizeCapacity();
     }
 
-    public int getCapacity(){
+    public int getCapacity() {
         return capacity;
     }
 
-    public int getSize(){
+    public int getSize() {
         return size;
     }
 
-    public void displayArray(){
+    public void displayArray() {
 
         System.out.print('{');
 
-        for(int i = 0; i < size; ++i){
-            System.out.print(array[i]+ " ");
+        for (int i = 0; i < size; ++i) {
+            System.out.print(array[i] + " ");
         }
 
         System.out.print('}');
@@ -240,30 +215,44 @@ public class MyArrayList<E> {
         System.out.println();
     }
 
+    @Override
+    public Iterator<E> iterator() {
+        return new MyIterator();
+    }
+
+    class MyIterator implements Iterator<E> {
+
+        private int cursor;
+
+        @Override
+        public boolean hasNext() {
+            return cursor != size;
+        }
+
+        @Override
+        public E next() {
+
+            return (E) array[cursor++];
+        }
+    }
+
     public static void main(String[] args) {
 
-        MyArrayList<Object> list = new MyArrayList();
+        MyArrayList<Object> list = new MyArrayList<>();
 
         list.add(10.5);
         list.add("CodingNomads");
         list.add(true);
 
-        for(int i = 0; i < 30; ++i) {
+        for (int i = 0; i < 30; ++i) {
             list.add(i);
         }
 
+
         //ITERATION
 
-        MyIterator itr = new MyIterator();
-
-        itr.size = list.getSize();
-
-        while(itr.hasNext()){
-            itr.obj = list.get(itr.cursor);
-
-            System.out.print(itr.obj + " ");
-
-            itr.next();
+        for (Object object : list) {
+            System.out.print(object + " ");
         }
 
         System.out.printf("%nSize: %d%nCapacity: %d%n******%n", list.size, list.capacity);
